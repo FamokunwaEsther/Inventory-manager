@@ -1,22 +1,33 @@
 const express = require('express');
-const router = express.Router();
-const productController = require('../controllers/productcontroller');
+const router1 = express.Router();
 
-//No authentication here (as requested)
+const productController = require('../controllers/productController');
+const { protect, authoriseRoles } = require('../middleware/authMiddleware');
 
-// Create a new product
-router.post('/products', productController.createProduct);
+// Create product + email
+router1.post(
+  '/products',
+  protect,
+  authoriseRoles('admin'),
+  productController.createProductEmail
+);
 
 // Get all products
-router.get('/products', productController.getProducts);
+router1.get('/products', productController.getProducts);
 
-// Get a single product
-router.get('/products/:id', productController.getProductById);
+// Get single product
+router1.get('/products/:id', productController.getProductById);
 
-// Update a product
-router.put('/products/:id', productController.updateProduct);
+// Update product
+router1.put('/products/:id', protect, productController.updateProduct);
 
-// Delete a product
-router.delete('/products/:id', productController.deleteProduct);
+// Delete product
+router1.delete('/products/:id', protect, productController.deleteProduct);
 
-module.exports = router;
+// Update image
+router1.put('/products/:id/image', protect, productController.updateProductImage);
+
+// Manual email trigger
+router1.patch('/createproductwithemail', productController.createProductEmail);
+
+module.exports = router1;

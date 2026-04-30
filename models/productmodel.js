@@ -1,4 +1,5 @@
 const mongoose = require ('mongoose');
+const { image } = require('../configs/cloudinaryConfig');
 
 const productSchema = new mongoose.Schema({
     name: {
@@ -12,5 +13,12 @@ const productSchema = new mongoose.Schema({
     quantity: {
         type: Number,
         default: 0
+    },
+    image: {
+        type: String,
+        required: true
     }
-});
+}, { timestamps: true });
+
+const Product = mongoose.model('Product', productSchema);
+module.exports = Product;
