@@ -16,9 +16,10 @@ connectDB();
 // Routes
 app.use('/api/products', productRoutes);
 app.use('/api', userRoutes);
-app.use('/api/fakestoreRoutes', fakestoreRoutes);
+app.use('/api/fakestore', fakestoreRoutes);
 
+const PORT = process.env.PORT || 8000;
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
